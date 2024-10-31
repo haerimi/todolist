@@ -16,6 +16,8 @@ const TodoList : React.FC = () => {
     ]);
 
     const [newTodo, setNewTodos] = useState<string>('');
+    const [showDetail, setShowDetail] = useState<boolean>(false);
+    const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
     const handleCheckChange = (itemId: number) => {
         setTodos((prevItems) =>
@@ -35,6 +37,15 @@ const TodoList : React.FC = () => {
 
     const removeTodo = (id: number) => {
         setTodos(todos.filter((todo) => todo.id !== id))
+    }
+
+    const handleTodoClick = (todo: Todo) => {
+        setShowDetail(true);
+        setSelectedTodo((todo));
+    }
+
+    const handleCloseDetail = () => {
+        setShowDetail(false);
     }
     return(
         <div>
@@ -59,7 +70,7 @@ const TodoList : React.FC = () => {
                             onChange={()=>{
                                 handleCheckChange(todo.id);
                             }}></input>
-                                <span>
+                                <span onClick={() => handleTodoClick(todo)}>
                                     {
                                         todo.isChecked
                                         ? <del>{todo.text}</del>
